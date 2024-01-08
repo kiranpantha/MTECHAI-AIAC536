@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Text Summarizer</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-center mb-4">Text Summarizer</h1>
+            
+            <!-- Text Area -->
+            <div class="form-group">
+                <textarea class="form-control" id="inputText" rows="15">
+                    काठमाडौँ — प्रधानमन्त्री पुष्पकमल दाहालले दूरसञ्चार सेवा प्रदायक कम्पनी एनसेलको मुलुकबाहिरै ८० प्रतिशत सेयर खरिद–बिक्रीको विषयमा तत्काल अध्ययन गर्न सम्बन्धित निकायलाई निर्देशन दिएका छन् । प्रधानमन्त्री दाहालको सचिवालयकाअनुसार राजश्व विभाग लगायतका निकायलाई एनसेलको सेयर खरिदको छानबिन गर्न निर्देशन दिएका हुन् ।
+
+एनसेलको सेयर बिक्रीबारे अध्ययन गर्न प्रधानमन्त्रीको निर्देशन
+प्रधानमन्त्री दाहालले सोमबार एनसेलको सेयर बिक्रीबारे चासो व्यक्त गर्दै अध्ययनको निर्देशन दिएका हुन् । 'एनसेलको सेयर बिक्रीका सम्बन्धमा प्रकाशित समाचारहरूप्रति प्रधानमन्‍त्री पुष्पकमल दाहालले गम्भीर चासो व्यक्त गर्नुभएको छ,' प्रधानमन्त्रीको सचिवालयले भनेको छ, 'प्रधानमन्‍त्रीले यस सम्बन्धमा प्रचलित कानुनी प्रावधानको पालना भए नभएको, सेयर बिक्री वितरण गर्दा प्रचलित विधि र प्रक्रिया पालना भए नभएको एवं यसबाट नेपाल नेपालको दूरसञ्‍चार क्षेत्र र विदेशी लगानीमा पर्ने असर तथा नेपाल सरकारको राजस्वलगायतका विषयमा पर्ने प्रभावका बारेमा सम्बन्धित निकायलाई शीघ्र अध्ययन गर्न निर्देशन दिनुभएको छ ।'
+
+मलेसियन कम्पनी ‘आजियटा ग्रुप बर्हाड’ले गत शुक्रबार एनसेलको ८० प्रतिशत शेयर स्वामित्व अर्को कम्पनी ‘स्पेक्ट्रलाइट युके लिमिटेड’लाई बेच्ने निर्णय गरेको थियो । नियामक निकायलाई समेत जानकारी नहुने गरी मुलुकबाहिरबाट शेयर खरिद–बिक्री भएको भन्दै यो व्यावसायिक कारोबारको कानुनी प्रक्रियाको वैधता र आर्थिक पादर्शितामाथि प्रश्न उठिरहेका छन् ।
+
+एनसेलको सेयर बिक्रीबारे संघीय संसद्को सार्वजनिक लेखा समितिले पनि चासो व्यक्त गरेको थियो । दूरसञ्चार सेवा प्रदायक कम्पनी र वैदेशिक लगानीका सन्दर्भमा प्रत्यक्ष सरोकार राख्ने नेपालस्थित सरकारी निकायलाई जानकारी नै नदिई सेयर खरिद–बिक्री भएपछि समितिले चासो राख्दै सरोकारवाला निकायलाई लेखा समितिले प्रश्न गर्दै विवरण माग गरिसकेको छ । यस विषयमा प्रधानमन्त्रीले पनि चासो व्यक्त गर्दै तत्काल अध्ययन गर्न निर्देशन दिएका हुन् ।
+                </textarea>
+            </div>
+            
+            <!-- Button to Trigger AJAX Call -->
+            <button class="btn btn-primary mt-4 w-100" id="processBtn" onclick="performAjax()">Process</button>
+            <br/>
+            <!-- Result Section -->
+            <div id="resultSection" class="mt-4">
+                <!-- AJAX response will be rendered here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function performAjax() {
+        // Get text from the textarea
+        var inputText = $('#inputText').val();
+        $('#processBtn').html('Processing...')
+        // Make AJAX call to your endpoint
+        $.ajax({
+            url: '/summarize', // Replace with your actual endpoint URL
+            method: 'POST', // Use 'GET' or 'POST' depending on your API
+            data: { text: inputText },
+            success: function(response) {
+                $('#processBtn').html('Process')
+                // Render the result in the result section
+                $('#resultSection').html('<p>' + response + '</p>');
+            },
+            error: function(error) {
+                $('#processBtn').html('Re-Process')
+                // Handle errors if necessary
+                console.error('Error:', error);
+                $('#resultSection').html('<p>Error fetching result.</p>');
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
